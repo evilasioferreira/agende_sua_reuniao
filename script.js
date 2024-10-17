@@ -46,16 +46,43 @@ function addParticipant() {
   document.getElementById("participant-email").value = "";
 }
 
+function removeParticipant(index) {
+  participants.splice(index, 1); // Remove o participante da lista
+  updateParticipantsList();
+}
+
 function updateParticipantsList() {
   const participantsList = document.getElementById("participants-list");
   participantsList.innerHTML = "";
 
-  participants.forEach((participant) => {
+  participants.forEach((participant, index) => {
     const listItem = document.createElement("li");
-    listItem.innerText = `${participant.name} (${participant.email})`;
+    listItem.style.display = "flex"; // Para alinhar o texto e o botão "x"
+    listItem.style.justifyContent = "space-between"; // Nome à esquerda e "x" à direita
+    listItem.style.alignItems = "center"; // Alinha verticalmente no centro
+
+    // Texto do nome e e-mail
+    const participantText = document.createElement("span");
+    participantText.innerText = `${participant.name} (${participant.email})`;
+
+    // Cria o botão "x" para remover participante
+    const removeButton = document.createElement("span");
+    removeButton.innerText = "x";
+    removeButton.style.cursor = "pointer"; // Torna o "x" clicável
+    removeButton.style.color = "red"; // Opcional: cor vermelha para o "x"
+    removeButton.style.marginLeft = "10px"; // Pequeno espaço entre o nome e o "x"
+    
+    removeButton.addEventListener("click", () => removeParticipant(index));
+
+    // Adiciona o texto e o botão "x" ao item da lista
+    listItem.appendChild(participantText);
+    listItem.appendChild(removeButton);
+
+    // Adiciona o item da lista à lista de participantes
     participantsList.appendChild(listItem);
   });
 }
+
 
 function confirmMeeting() {
   const name = document.getElementById("name").value;
@@ -84,8 +111,37 @@ function confirmMeeting() {
   const meetLink = "https://meet.google.com/new";
   document.getElementById("meet-link").href = meetLink;
 
+  // Chamada para o envio de e-mails de confirmação
+  sendConfirmationEmail(name, email, date, time, participants);
+
   document.getElementById("form-screen").classList.add("hidden");
   document.getElementById("confirmation-screen").classList.remove("hidden");
+}
+
+// Função para enviar e-mail de confirmação (aqui deve haver integração com um backend)
+function sendConfirmationEmail(name, email, date, time, participants) {
+  const emailData = {
+    subject: "Confirmação de Reunião",
+    body: `Olá ${name}, sua reunião foi agendada para ${date} às ${time}. Os participantes são: ${participants.map(p => p.name).join(", ")}`,
+    recipients: [email, ...participants.map(p => p.email)] // Envia para o organizador e para os participantes
+  };
+
+  fetch("/send-email", {  // Exemplo de rota de backend para envio de e-mails
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(emailData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("E-mails de confirmação enviados com sucesso.");
+      } else {
+        alert("Falha ao enviar e-mails.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao enviar e-mails:", error);
+    });
 }
 
 function cancelMeeting() {
@@ -117,3 +173,4 @@ function goBackToCalendar() {
   document.getElementById("form-screen").classList.add("hidden");
   document.getElementById("calendar-screen").classList.remove("hidden");
 }
+

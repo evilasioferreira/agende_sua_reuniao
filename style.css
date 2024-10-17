@@ -71,12 +71,16 @@ ul {
 
 li {
   padding: 5px;
+  display: flex;
+  justify-content: space-between; /* Mantém o nome e o botão "x" separados */
+  align-items: center;
   border-bottom: 1px solid #ccc;
 }
 
 li:last-child {
   border-bottom: none;
 }
+
 
 a {
   margin-top: 15px;
@@ -93,9 +97,7 @@ a:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Ocupa toda a largura disponível */
-  max-width: 400px; /* Define um limite para a largura do container */
-  margin: 0 auto; /* Centraliza o container horizontalmente */
+  width: 100%;
 }
 
 #participants-container h3 {
@@ -103,8 +105,8 @@ a:hover {
 }
 
 #participants-container input {
-  width: 100%; /* Faz os inputs ocuparem 100% da largura do container */
-  margin: 10px 0; /* Espaçamento entre os campos */
+  width: 100%;
+  margin: 10px 0;
   padding: 10px;
   box-sizing: border-box;
 }
