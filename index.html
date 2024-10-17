@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Reunião</title>
+  <link rel="stylesheet" href="style.css">
+  <noscript>
+    <style>
+      .screen {
+        display: block !important;
+      }
+    </style>
+    <p>JavaScript está desativado. Algumas funcionalidades podem não estar disponíveis.</p>
+  </noscript>
+</head>
+
+<body>
+  <div id="calendar-screen" class="screen">
+    <h2>Agende sua reunião</h2>
+    <input type="date" id="selected-date" />
+    <input type="time" id="selected-time" />
+    <button id="continue-button">Continuar</button>
+  </div>
+
+  <div id="form-screen" class="screen hidden">
+    <h2>Dados do Agendamento</h2>
+    <input type="text" id="name" placeholder="Seu Nome" required />
+    <input type="email" id="email" placeholder="Seu E-mail" required />
+
+    <div id="participants-container">
+      <h3>Participantes</h3>
+      <input type="text" id="participant-name" placeholder="Nome do Participante" />
+      <input type="email" id="participant-email" placeholder="E-mail do Participante" />
+      <button id="add-participant-button">Adicionar Participante</button>
+      <ul id="participants-list"></ul>
+    </div>
+
+    <textarea id="observations" placeholder="Observações"></textarea>
+    <button id="confirm-button">Confirmar</button>
+    <button id="back-button">Voltar</button>
+  </div>
+
+  <div id="confirmation-screen" class="screen hidden">
+    <h2>Reunião Confirmada!</h2>
+    <p><strong>Data:</strong> <span id="confirm-date"></span></p>
+    <p><strong>Hora:</strong> <span id="confirm-time"></span></p>
+    <p><strong>Nome:</strong> <span id="confirm-name"></span></p>
+    <p><strong>E-mail:</strong> <span id="confirm-email"></span></p>
+    <p><strong>Observações:</strong> <span id="confirm-obs"></span></p>
+    <p><strong>Participantes:</strong> <span id="confirm-participants"></span></p>
+    <a id="meet-link" target="_blank">Abrir Reunião no Meet</a>
+    <button id="cancel-button">Cancelar Reunião</button>
+    <button id="reschedule-button">Reagendar Reunião</button>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
